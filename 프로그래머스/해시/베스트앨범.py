@@ -16,7 +16,7 @@ def solution(genres, plays):
         number += 1
         
     for key, value in album.items():
-        value[1] = sorted(value[1], key=lambda x: (-x[1], x[0]))
+        value[1] = sorted(value[1], key=lambda x: (-x[1], x[0] )  )
     
     # album_sorted = sorted(album.values(), key=lambda x: (-x[1], x[0]))
 
