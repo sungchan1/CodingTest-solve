@@ -4,13 +4,13 @@ from sys import stdin as s
 n = int(s.readline())
 
 cards = { number : 0 for number in map(int, s.readline().split())}
-maximum = max(cards)
+maximum = 1000000
 for card in cards.keys():
-    multiple = 2
-    while card * multiple <= maximum:
-        if card * multiple in cards:
+    target = card * 2
+    while target <= maximum:
+        if target in cards:
             cards[card] +=1
-            cards[card*multiple] -=1
-        multiple +=1
+            cards[target] -=1
+        target += card
 
-print(" ".join(map(str,cards.values())))
+print(*cards.values())
