@@ -2,7 +2,7 @@ from heapq import heappush, heappop, heapify
 from sys import stdin
 
 
-n, k = map(int, stdin.readline().split())
+n, k = map(int, input().split())
 
 
 
@@ -11,7 +11,7 @@ n, k = map(int, stdin.readline().split())
 jewelry = []
 bags = []
 for _ in range(n):
-    weight, price = map(int, stdin.readline().split())
+    weight, price = map(int, input().split())
     heappush(jewelry, (weight, -price))
 
 
