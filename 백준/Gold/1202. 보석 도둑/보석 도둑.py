@@ -2,7 +2,7 @@ from heapq import heappush, heappop, heapify
 from sys import stdin
 
 
-n, k = map(int, input().split())
+n, k = map(int, stdin.readline().split())
 
 
 
@@ -11,29 +11,30 @@ n, k = map(int, input().split())
 jewelry = []
 bags = []
 for _ in range(n):
-    weight, price = map(int, input().split())
-    heappush(jewelry, (weight, -price))
+    weight, price = map(int, stdin.readline().split())
+    jewelry.append((weight, -price))
 
 
 
 for _ in range(k):
-    heappush(bags, int(input()))
+    bags.append(int(stdin.readline()))
 
 cost = 0
 j = 0
 backup = []
 pq = []
 
+jewelry.sort()
+bags.sort()
 
 # 가방, 보석 (무게)
-
-while bags:
-    bag = heappop(bags)
-    while jewelry and jewelry[0][0] <= bag:
-        heappush(pq, heappop(jewelry)[1])
+j = 0
+for bag in bags:
+    while j < n and jewelry[j][0] <= bag:
+        heappush(pq, jewelry[j][1])
+        j +=1
     if pq:
         cost -= heappop(pq)
-
 
 print(cost)
 
