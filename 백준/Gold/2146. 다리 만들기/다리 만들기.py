@@ -21,7 +21,7 @@ def bfs(row, col, index):
             nr = r + dr[i]
             nc = c + dc[i]
 
-            if nr < 0 or nr >= size or nc < 0 or nc >= size:
+            if not (0 <= nr < size) or not (0 <= nc < size):
                 continue
 
             if (nr, nc) in island:
@@ -31,14 +31,13 @@ def bfs(row, col, index):
                 continue
 
             q.append((nr, nc))
-
     total_island.update(island)
 
 
 # 시작 - 입력 받기
 size = int(input())
-islands = defaultdict(set)
-total_island = set()
+islands = defaultdict(set)  # 1번 섬 좌표 모여있습나다.
+total_island = set() # total
 world = [
     list(map(int, input().split()))
     for _ in range(size)
@@ -59,7 +58,7 @@ for i in range(size):
 
 bridge = float("inf")
 
-
+# 섬 크기를 점점 키움
 for i in range(island_count):
     island = islands[i]
     visited = [[False] * size for _ in range(size)]
@@ -71,12 +70,12 @@ for i in range(island_count):
         if visited[r][c]:
             continue
 
-        # 다른 섬에 도달하면 다리의 길이를 갱신
+        visited[r][c] = True
+
+        # 다른 섬에 도달 하면 다리의 길이를 갱신
         if world[r][c] == 1 and (r, c) not in island:
             bridge = min(bridge, distance)
             break
-
-        visited[r][c] = True
 
         for j in range(4):
             nr = r + dr[j]
