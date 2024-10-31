@@ -35,11 +35,10 @@ def bfs(row, col, index):
     total_island.update(island)
 
 
+# 시작 - 입력 받기
 size = int(input())
-
 islands = defaultdict(set)
 total_island = set()
-
 world = [
     list(map(int, input().split()))
     for _ in range(size)
@@ -49,17 +48,22 @@ world = [
 island_count = 0
 for i in range(size):
     for j in range(size):
-        if world[i][j] == 1 and (i, j) not in total_island:
-            bfs(i, j, island_count)
-            island_count += 1
+        if world[i][j] == 0:
+            continue
+
+        if (i, j) in total_island:
+            continue
+
+        bfs(i, j, island_count)
+        island_count += 1
 
 bridge = float("inf")
 
-# 각 섬에서 다리 놓기 시도
+
 for i in range(island_count):
     island = islands[i]
     visited = [[False] * size for _ in range(size)]
-    q = deque([(r, c, 0) for r, c in island])  # 시작점 큐에 거리 0으로 넣기
+    q = deque([(r, c, 0) for r, c in island])
 
     while q:
         r, c, distance = q.popleft()
@@ -74,7 +78,6 @@ for i in range(island_count):
 
         visited[r][c] = True
 
-        # 거리 1 증가하며 인접한 좌표 탐색
         for j in range(4):
             nr = r + dr[j]
             nc = c + dc[j]
@@ -82,4 +85,4 @@ for i in range(island_count):
             if 0 <= nr < size and 0 <= nc < size and not visited[nr][nc]:
                 q.append((nr, nc, distance + 1))
 
-print(bridge-1)
+print(bridge - 1)
