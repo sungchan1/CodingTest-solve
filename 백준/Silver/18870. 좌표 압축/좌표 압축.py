@@ -1,19 +1,14 @@
 import heapq
 from sys import stdin
 
-
 n = int(stdin.readline())
 
-
-
 numbers = list(map(int, stdin.readline().split()))
-numbers_sort = sorted(list(set(numbers)))
+numbers_sort = sorted(set(numbers))
 hash_dict = dict()
 
-for i in range(len(numbers_sort)):
-    hash_dict[numbers_sort[i]] = i
-
-
+for index, key in enumerate(numbers_sort):
+    hash_dict[key] = str(index)
 
 
 for number in numbers:
