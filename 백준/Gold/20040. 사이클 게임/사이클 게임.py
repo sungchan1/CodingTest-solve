@@ -13,25 +13,12 @@ def union(p1, p2):
         parent1, parent2 = parent2, parent1
 
     points[parent2] = parent1
-    points[p1] = parent1
-    points[p2] = parent1
-
-
 
 def find(point):
     p = point
-
-    paths = []
     while p != points[p]:
-        paths.append(p)
         p = points[p]
-
-    parent = p
-
-    for path in paths:
-        points[path] = parent
-
-    return parent
+    return p
 
 
 result = 0
