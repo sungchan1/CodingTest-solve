@@ -1,37 +1,29 @@
-from functools import lru_cache
+from functools import cache
 from sys import stdin
 
 
-@lru_cache
+@cache
 def pow(i: int):
-    return 2**i
+    return (2 ** i) % modular
+
 
 n = int(stdin.readline())
 
 numbers = list(map(int, stdin.readline().split()))
 modular = 1_000_000_007
 
-numbers.sort()
+powers = [1] * n
+for i in range(1, n):
+    powers[i] = (powers[i - 1] * 2) % modular
 
+numbers.sort()
 result = 0
 
 for i in range(n):
-    max_count = pow(i)
-
-    result += ((numbers[i] % modular) * max_count) % modular
-    min_count = pow(n-i-1)
-
-    result -= ((numbers[i] % modular) * min_count) % modular
-    
+    # count = (pow(i) - pow(n - i - 1)) % modular
+    count = (powers[i] - powers[n - i - 1]) % modular
+    target = numbers[i] % modular
+    result += (target * count) % modular
     result %= modular
 
 print(result)
-
-
-
-
-
-
-
-
-
