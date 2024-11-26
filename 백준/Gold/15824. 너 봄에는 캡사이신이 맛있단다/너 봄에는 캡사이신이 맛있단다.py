@@ -17,12 +17,9 @@ result = 0
 
 for i in range(n):
     max_count = pow(i)
-
     result += ((numbers[i] % modular) * max_count) % modular
     min_count = pow(n-i-1)
-
     result -= ((numbers[i] % modular) * min_count) % modular
-    
     result %= modular
 
 print(result)
