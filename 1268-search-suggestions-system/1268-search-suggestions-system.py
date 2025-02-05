@@ -4,6 +4,7 @@ class TrieNode:
         self.key = key
         self.data = data
         self.child: dict[str : TrieNode] = {}
+        self.sort_flag = False
 
 
 class Trie:
@@ -50,7 +51,9 @@ class Trie:
                 find_words.append(node.data)
 
             # child 정렬
-            node.child = dict(sorted(node.child.items()))
+            if not node.sort_flag:
+                node.child = dict(sorted(node.child.items()))
+                node.sort_flag = True
 
             # 사전순으로 접근
             for _, next_node in node.child.items():
