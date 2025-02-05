@@ -1,9 +1,10 @@
+
 class TrieNode:
     def __init__(self, key: str, data: str | None = None):
         self.key = key
         self.data = data
         self.child: dict[str: TrieNode] = {}
-        self.sorted = False
+        # self.sorted = False
 
 
 class Trie:
@@ -59,9 +60,9 @@ class Trie:
                 find_words.append(node.data)
 
             # child 정렬
-            if not node.sorted:
-                node.child = dict(sorted(node.child.items()))
-                node.sorted = True
+            # if not node.sorted:
+            #     node.child = dict(sorted(node.child.items()))
+            #     node.sorted = True
 
             # 사전순으로 접근
             for _, next_node in node.child.items():
@@ -81,6 +82,7 @@ class Solution:
         suggested_products: list[list[str]] = []
 
         trie = Trie()
+        products.sort()
 
         for product in products:
             trie.insert(product)
