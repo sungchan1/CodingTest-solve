@@ -1,15 +1,15 @@
-
 class TrieNode:
     def __init__(self, key: str, data: str | None = None):
         self.key = key
         self.data = data
-        self.child: dict[str : TrieNode] = {}
-        self.sort_flag = False
+        self.child: dict[str: TrieNode] = {}
+        self.sorted = False
 
 
 class Trie:
     def __init__(self):
         self.head: TrieNode = TrieNode(None)
+        self.recent: TrieNode = self.head
 
     def insert(self, data: str) -> bool:
         node: TrieNode = self.head
@@ -19,23 +19,31 @@ class Trie:
                 # 노드 생성
                 node.child[char] = TrieNode(char)
             # 다음 노드
-            node = node.child[char]      
-        
-        # 마지막 노드에 데이터 삽입
+            node = node.child[char]
+
+            # 마지막 노드에 데이터 삽입
         node.data = data
-    
+
     def search(self, word: str) -> TrieNode | None:
-        node = self.head
+        # node = self.head
 
-        for char in word:
-            if char in node.child:
-                node = node.child[char]
-            else:
-                return None
+        # for char in word:
+        #     if char in node.child:
+        #         node = node.child[char]
+        #     else:
+        #         return None
+
+        node = self.recent
         
-        return node
+        if node is None:
+            return None
 
-    def starts_with (self, prefix: str, limit: int) -> list[str]:
+        char = word[-1]
+        self.recent = node.child[char] if char in node.child else None
+    
+        return self.recent
+
+    def starts_with(self, prefix: str, limit: int) -> list[str]:
         node = self.search(prefix)
 
         # prefix 일치 노드가 없을 때
@@ -46,14 +54,14 @@ class Trie:
         def dfs(node: TrieNode, limit: int) -> list[str]:
             find_words: list[str] = []
 
-            # 있는 데이터 
+            # 있는 데이터
             if node.data:
                 find_words.append(node.data)
 
             # child 정렬
-            if not node.sort_flag:
+            if not node.sorted:
                 node.child = dict(sorted(node.child.items()))
-                node.sort_flag = True
+                node.sorted = True
 
             # 사전순으로 접근
             for _, next_node in node.child.items():
@@ -66,24 +74,21 @@ class Trie:
             return find_words[:limit]
 
         return dfs(node, limit)
-            
-                
+
+
 class Solution:
     def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
         suggested_products: list[list[str]] = []
 
         trie = Trie()
-        
+
         for product in products:
             trie.insert(product)
 
         word = ""
-        
+
         for char in searchWord:
             word += char
             suggested_products.append(trie.starts_with(word, 3))
 
         return suggested_products
-        
-
-        
