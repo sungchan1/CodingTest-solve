@@ -18,18 +18,22 @@ value = 0
 x = 100_000
 y = 0
 
+
+included = set()
+
 while x >= 0 and y <= 100_000:
     if cost <= cash:
         result = max(result, value)
-
         for _x, v in y_gems[y]:
             if _x <= x:
+                included.add((_x, y))
                 cost += 1
                 value += v
         y += 1
     else:
         for _y, v in x_gems[x]:
-            if _y <= y:
+            if (x, _y) in included:
+                included.remove((x, _y))
                 cost -= 1
                 value -= v
 
@@ -37,7 +41,8 @@ while x >= 0 and y <= 100_000:
 
     if cost <= cash:
         result = max(result, value)
-
+if cost <= cash:
+    result = max(result, value)
 
 print(result)
 
